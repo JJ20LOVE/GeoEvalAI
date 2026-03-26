@@ -1,0 +1,2970 @@
+openapi: 3.0.1
+info:
+  title: 默认模块
+  description: ''
+  version: 1.0.0
+tags:
+  - name: user
+  - name: student
+  - name: class
+  - name: answersheet
+  - name: exam
+  - name: xueqing
+  - name: flask
+  - name: wrongbook
+  - name: recommendation
+paths:
+  /user/signup:
+    post:
+      summary: 注册
+      deprecated: false
+      description: ''
+      tags:
+        - user
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: 名称
+                email:
+                  type: string
+                password:
+                  type: string
+                re_password:
+                  type: string
+              required:
+                - name
+                - email
+                - password
+                - re_password
+            example:
+              name: zhanGsan
+              email: 111@dnidd.com
+              password: '1233321311'
+              re_password: '1233321311'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                  msg:
+                    type: string
+                required:
+                  - code
+                  - msg
+          headers: {}
+      security:
+        - bearer: []
+  /user/changePass:
+    put:
+      summary: 修改密码
+      deprecated: false
+      description: ''
+      tags:
+        - user
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                old_pass:
+                  type: string
+                new_pass:
+                  type: string
+              required:
+                - username
+                - old_pass
+                - new_pass
+            example:
+              username: test
+              old_pass: '123456'
+              new_pass: '654321'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                  msg:
+                    type: string
+                required:
+                  - code
+                  - msg
+              example:
+                code: 200
+                msg: success
+          headers: {}
+      security:
+        - bearer: []
+  /user/login:
+    post:
+      summary: 登录
+      deprecated: false
+      description: ''
+      tags:
+        - user
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties: {}
+            example:
+              username: test
+              password: '123456'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                  msg:
+                    type: string
+                  token:
+                    type: string
+                required:
+                  - code
+                  - msg
+                  - token
+          headers: {}
+      security:
+        - bearer: []
+  /student/getAllStudent:
+    get:
+      summary: 获取学生列表
+      deprecated: false
+      description: ''
+      tags:
+        - student
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+              example:
+                code: 200
+                data:
+                  - StudentID: '10225101537'
+                    StudentName: luzhufeng
+                msg: success
+      security:
+        - bearer: []
+  /student/getStudentByClass:
+    get:
+      summary: 获取每个班级学生列表
+      deprecated: false
+      description: ''
+      tags:
+        - student
+      parameters:
+        - name: id
+          in: query
+          description: ID 编号
+          required: false
+          example: '2'
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        student_id:
+                          type: string
+                        student_name:
+                          type: string
+                        class_id:
+                          type: integer
+                  msg:
+                    type: string
+                required:
+                  - code
+                  - data
+                  - msg
+              example:
+                code: 200
+                data:
+                  - id: 1
+                    student_id: '10225101537'
+                    student_name: luzhufeng
+                    class_id: 2
+                msg: success
+          headers: {}
+      security:
+        - bearer: []
+  /student/getStudentInfo:
+    get:
+      summary: 获取学生信息
+      deprecated: false
+      description: ''
+      tags:
+        - student
+      parameters:
+        - name: id
+          in: query
+          description: ID 编号
+          required: true
+          example: '1'
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+              example:
+                code: 200
+                data:
+                  id: 1
+                  student_id: '10225101537'
+                  student_name: luzhufeng
+                  class_name: T001
+                  avg_grade: 100
+                  max_grade: 100
+                  min_grade: 100
+                  History:
+                    - id: 1
+                      title: 2024高等数学
+                      date: '2024-09-15T00:00:00+08:00'
+                      total_grade: 100
+                      comment: tql
+                msg: success
+          headers: {}
+      security:
+        - bearer: []
+  /student/addStudent:
+    post:
+      summary: 添加学生
+      deprecated: false
+      description: ''
+      tags:
+        - student
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties: {}
+            example:
+              class_id: 1
+              student_id: '10225101536'
+              student_name: lzk
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+              examples:
+                '1':
+                  summary: 异常示例
+                  value:
+                    code: 501
+                    msg: student already exists
+                '2':
+                  summary: 成功示例
+                  value:
+                    code: 200
+                    msg: success
+          headers: {}
+      security:
+        - bearer: []
+  /student/updateStudent:
+    put:
+      summary: 更新学生信息
+      deprecated: false
+      description: ''
+      tags:
+        - student
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties: {}
+            example:
+              id: 1
+              student_id: '10225101537'
+              student_name: luzhufeng
+              class_id: 2
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+              example:
+                code: 200
+                msg: success
+          headers: {}
+      security:
+        - bearer: []
+  /student/deleteStudent:
+    delete:
+      summary: 删除学生
+      deprecated: false
+      description: ''
+      tags:
+        - student
+      parameters:
+        - name: id
+          in: query
+          description: ID 编号
+          required: true
+          example: '1'
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+              example:
+                code: 505
+                msg: you can't delete a student with answer sheets
+          headers: {}
+      security:
+        - bearer: []
+  /class/getAllClass:
+    get:
+      summary: 获取班级列表
+      deprecated: false
+      description: ''
+      tags:
+        - class
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+              example:
+                code: 200
+                data:
+                  - class_id: 1
+                    class_name: T000
+                msg: success
+          headers: {}
+      security:
+        - bearer: []
+  /class/addClass:
+    post:
+      summary: 添加班级
+      deprecated: false
+      description: ''
+      tags:
+        - class
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                class_name:
+                  type: string
+              required:
+                - class_name
+            example:
+              class_name: T001
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                  msg:
+                    type: string
+                required:
+                  - code
+                  - msg
+              examples:
+                '1':
+                  summary: 异常示例
+                  value:
+                    code: 503
+                    msg: class already exists
+                '2':
+                  summary: 成功示例
+                  value:
+                    code: 200
+                    msg: success
+          headers: {}
+      security:
+        - bearer: []
+  /class/updateClass:
+    put:
+      summary: 更新班级信息
+      deprecated: false
+      description: ''
+      tags:
+        - class
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties: {}
+            example:
+              class_id: 2
+              class_name: T001
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+              example:
+                code: 200
+                msg: success
+          headers: {}
+      security:
+        - bearer: []
+  /class/deleteClass:
+    delete:
+      summary: 删除班级
+      deprecated: false
+      description: ''
+      tags:
+        - class
+      parameters:
+        - name: class_id
+          in: query
+          description: ID 编号
+          required: true
+          example: '1'
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+              example:
+                code: 504
+                msg: you can't delete a class with students
+          headers: {}
+      security:
+        - bearer: []
+  /answersheet/getAnswerSheet:
+    get:
+      summary: 获取答题纸列表
+      deprecated: false
+      description: 可以按班级获取也可以按测验获取。参数可选。都不填就获取所有答题纸
+      tags:
+        - answersheet
+      parameters:
+        - name: class_id
+          in: query
+          description: ''
+          required: false
+          example: '2'
+          schema:
+            type: string
+        - name: exam_id
+          in: query
+          description: ''
+          required: false
+          example: '1'
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        student_id:
+                          type: integer
+                        exam_id:
+                          type: integer
+                        total_grade:
+                          type: integer
+                        is_eva:
+                          type: boolean
+                        pic_url:
+                          type: string
+                      required:
+                        - id
+                        - student_id
+                        - exam_id
+                        - total_grade
+                        - is_eva
+                        - pic_url
+                  msg:
+                    type: string
+                required:
+                  - code
+                  - data
+                  - msg
+              example:
+                code: 200
+                data:
+                  - id: 2
+                    student_id: 10225101537
+                    exam_id: 1
+                    total_grade: 100
+                    is_eva: true
+                    pic_url: >-
+                      http://122.51.185.92:9000/answersheet/2_0_thumbnail?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=8cDSEMIvKbeBMjSctDGl%2F20241110%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20241110T011020Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=b0f8d86350be8652abdde1c9cb97f97fc6c92770d56e8b80fc8574dcb83eb3b2
+                  - id: 34
+                    student_id: 10225101536
+                    exam_id: 2
+                    total_grade: 0
+                    is_eva: false
+                    pic_url: >-
+                      http://122.51.185.92:9000/answersheet/34_0_thumbnail?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=8cDSEMIvKbeBMjSctDGl%2F20241110%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20241110T011020Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=9dd2dea2e362f2db38209b2ed58de877afa40e971892d8aedd191fe2ffd31625
+                  - id: 36
+                    student_id: 10225101536
+                    exam_id: 5
+                    total_grade: 0
+                    is_eva: false
+                    pic_url: >-
+                      http://122.51.185.92:9000/answersheet/36_0_thumbnail?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=8cDSEMIvKbeBMjSctDGl%2F20241110%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20241110T011020Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=f4463cdbb1f616d6a42beb70ce246a5c0a25a0c45d5998f211d027255645926c
+                  - id: 37
+                    student_id: 10225101537
+                    exam_id: 5
+                    total_grade: 0
+                    is_eva: false
+                    pic_url: >-
+                      http://122.51.185.92:9000/answersheet/37_0_thumbnail?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=8cDSEMIvKbeBMjSctDGl%2F20241110%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20241110T011020Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=576073bb513b413726025fa5d64deee9e307b92643e637794c0ec3c33c511b11
+                  - id: 38
+                    student_id: 10225101537
+                    exam_id: 2
+                    total_grade: 0
+                    is_eva: false
+                    pic_url: >-
+                      http://122.51.185.92:9000/answersheet/38_0_thumbnail?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=8cDSEMIvKbeBMjSctDGl%2F20241110%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20241110T011020Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=e0a3e12079f043b33a016df377619b4f9adf06eb1ec4d1c5108a4b7fa650044a
+                  - id: 40
+                    student_id: 10225101536
+                    exam_id: 9
+                    total_grade: 0
+                    is_eva: true
+                    pic_url: >-
+                      http://122.51.185.92:9000/answersheet/40_0_thumbnail?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=8cDSEMIvKbeBMjSctDGl%2F20241110%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20241110T011020Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=88cf5b2b9aea6e19883604dce22567538f3b53cd32ea2a4303d81b24e433fc9d
+                  - id: 51
+                    student_id: 10225101537
+                    exam_id: 9
+                    total_grade: 37
+                    is_eva: true
+                    pic_url: >-
+                      http://122.51.185.92:9000/answersheet/51_0_thumbnail?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=8cDSEMIvKbeBMjSctDGl%2F20241110%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20241110T011020Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=bc94f03851c8a050360f263b370d04c7f0e790292e86a0420d11642f4cc7750c
+                  - id: 52
+                    student_id: 10225101111
+                    exam_id: 9
+                    total_grade: 39
+                    is_eva: true
+                    pic_url: >-
+                      http://122.51.185.92:9000/answersheet/52_0_thumbnail?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=8cDSEMIvKbeBMjSctDGl%2F20241110%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20241110T011020Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=8c4f0e36c6f2448f0d47c1de1026034bb7cc9de5bb2bee93a3ff6eef033b95b1
+                  - id: 55
+                    student_id: 10225101539
+                    exam_id: 9
+                    total_grade: 38
+                    is_eva: true
+                    pic_url: >-
+                      http://122.51.185.92:9000/answersheet/55_0_thumbnail?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=8cDSEMIvKbeBMjSctDGl%2F20241110%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20241110T011020Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=af050b5f8954a38a583ff1c5c75cae082a56c7c67c512b753bd097b90e794e89
+                  - id: 56
+                    student_id: 10225101539
+                    exam_id: 8
+                    total_grade: 0
+                    is_eva: false
+                    pic_url: >-
+                      http://122.51.185.92:9000/answersheet/56_0_thumbnail?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=8cDSEMIvKbeBMjSctDGl%2F20241110%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20241110T011020Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=d9abd5c84037ed8ce91ebba8eb642d50662540d2b87e2cfb31a89ee0081a446b
+                  - id: 57
+                    student_id: 10225101537
+                    exam_id: 8
+                    total_grade: 0
+                    is_eva: false
+                    pic_url: >-
+                      http://122.51.185.92:9000/answersheet/57_0_thumbnail?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=8cDSEMIvKbeBMjSctDGl%2F20241110%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20241110T011020Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=417e185bfb357eae3e71dd076280d817c527633142756f7c04dd315217b4bd42
+                  - id: 58
+                    student_id: 10225101539
+                    exam_id: 5
+                    total_grade: 0
+                    is_eva: false
+                    pic_url: >-
+                      http://122.51.185.92:9000/answersheet/58_0_thumbnail?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=8cDSEMIvKbeBMjSctDGl%2F20241110%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20241110T011020Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=48d22688abe979cff0a601aacf7d1566cf4eb06befb306d38aaa740d8a947a3d
+                  - id: 74
+                    student_id: 10225101111
+                    exam_id: 8
+                    total_grade: 0
+                    is_eva: false
+                    pic_url: >-
+                      http://122.51.185.92:9000/answersheet/74_0_thumbnail?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=8cDSEMIvKbeBMjSctDGl%2F20241110%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20241110T011020Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=1d30e55ea20cf5971cfd986cc269fa059105adbec035ff7297cd327d78cd6f86
+                  - id: 90
+                    student_id: 10225101536
+                    exam_id: 1
+                    total_grade: 0
+                    is_eva: false
+                    pic_url: >-
+                      http://122.51.185.92:9000/answersheet/90_0_thumbnail?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=8cDSEMIvKbeBMjSctDGl%2F20241110%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20241110T011020Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=83698a1c781b984eeee826ee07b1f9e93731c44d61692b4cf17c80ffe9621e62
+                  - id: 91
+                    student_id: 1
+                    exam_id: 27
+                    total_grade: 44
+                    is_eva: true
+                    pic_url: >-
+                      http://122.51.185.92:9000/answersheet/91_0_thumbnail?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=8cDSEMIvKbeBMjSctDGl%2F20241110%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20241110T011020Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=dc08ba8a2a4f6de377799aedec5903049ae5a25e48ef292ab121a5e009c62115
+                  - id: 92
+                    student_id: 2
+                    exam_id: 27
+                    total_grade: 32
+                    is_eva: true
+                    pic_url: >-
+                      http://122.51.185.92:9000/answersheet/92_0_thumbnail?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=8cDSEMIvKbeBMjSctDGl%2F20241110%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20241110T011020Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=fba1c323370cbe222a637eb0b6072f45aa5469211e46da8ce84c1e6287cb3991
+                  - id: 94
+                    student_id: 3
+                    exam_id: 27
+                    total_grade: 43
+                    is_eva: true
+                    pic_url: >-
+                      http://122.51.185.92:9000/answersheet/94_0_thumbnail?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=8cDSEMIvKbeBMjSctDGl%2F20241110%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20241110T011020Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=13788fd9a99c4426ec7f1a536a4b5d5536427dd6ca971798e5c418637afa64e3
+                  - id: 95
+                    student_id: 4
+                    exam_id: 27
+                    total_grade: 29
+                    is_eva: true
+                    pic_url: >-
+                      http://122.51.185.92:9000/answersheet/95_0_thumbnail?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=8cDSEMIvKbeBMjSctDGl%2F20241110%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20241110T011020Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=26adcee855a1fe63bf4aa87735fdce78b3dc06c9cfa8dc48aa692ad3f1121214
+                msg: success
+          headers: {}
+      security:
+        - bearer: []
+  /answersheet/deleteAnswerSheet:
+    delete:
+      summary: 删除答题纸
+      deprecated: false
+      description: ''
+      tags:
+        - answersheet
+      parameters:
+        - name: id
+          in: query
+          description: ID 编号
+          required: true
+          example: '2'
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+              example:
+                code: 200
+                msg: success
+          headers: {}
+      security:
+        - bearer: []
+  /answersheet/correctOcr:
+    put:
+      summary: 修正OCR结果
+      deprecated: false
+      description: ''
+      tags:
+        - answersheet
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties: {}
+            example:
+              aid: 1
+              qid: 2
+              result: 答题纸一修改后的第二题结果
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+              example:
+                code: 200
+                msg: success
+          headers: {}
+      security:
+        - bearer: []
+  /answersheet/evaluator:
+    get:
+      summary: 评估得分
+      deprecated: false
+      description: ''
+      tags:
+        - answersheet
+      parameters:
+        - name: id
+          in: query
+          description: ID 编号
+          required: true
+          example: '7'
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+          headers: {}
+      security:
+        - bearer: []
+  /answersheet/createAnswerSheet:
+    post:
+      summary: 上传答题纸并ocr
+      deprecated: false
+      description: ''
+      tags:
+        - answersheet
+      parameters: []
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                exam_id:
+                  example: '5'
+                  type: string
+                student_id:
+                  example: '1'
+                  type: string
+                file:
+                  example: file:///Users/yicheng/Desktop/test.jpg
+                  type: string
+                  format: binary
+              required:
+                - exam_id
+                - student_id
+                - file
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+              example:
+                code: 200
+                data:
+                  - id: 1
+                    result: 城市地貌学，城市景观计量地理学
+                  - id: 2
+                    result: 计量运动的发展历史
+                  - id: 3
+                    result: 研究对象：①表层自然环境；②五大圆层；③及其相互作用关系
+                  - id: 4
+                    result: 答：水循环的过程：蒸散发→降水→下渗→径流、以及地下水运动
+                  - id: 5
+                    result: ①气象学与气候学；②物候变化③知行合一；④刘佛年老校长；⑤胡焕庸、李春芬、李四光
+                  - id: 6
+                    result: 铁人王进喜；图A与图BC、D
+                  - id: 7
+                    result: ①海绵城市的建设与改造；②影响城市水文过程；
+                  - id: 8
+                    result: ③中学生的同伴关系相对小学生的变化；②蒋鹏问题的处理
+                  - id: 9
+                    result: ①寒武纪时期的三叶虫化石的发现；②小行星防御拦截工程；③紫金山天文台的工作
+                  - id: 10
+                    result: ①和睦桥水文站；②宝山气象局；③松浦大桥水文站；④辰山植物园
+                msg: success
+          headers: {}
+      security:
+        - bearer: []
+  /answersheet/getAnswerSheetInfo:
+    get:
+      summary: 获取答题纸信息
+      deprecated: false
+      description: ''
+      tags:
+        - answersheet
+      parameters:
+        - name: id
+          in: query
+          description: ''
+          required: true
+          example: '55'
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                  data:
+                    type: object
+                    properties:
+                      basic_info:
+                        type: object
+                        properties:
+                          id:
+                            type: integer
+                          student_id:
+                            type: integer
+                          exam_id:
+                            type: integer
+                          total_grade:
+                            type: integer
+                          is_eva:
+                            type: boolean
+                          student_name:
+                            type: string
+                        required:
+                          - id
+                          - student_id
+                          - exam_id
+                          - total_grade
+                          - is_eva
+                          - student_name
+                      questions:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            question_id:
+                              type: integer
+                            ocr_result:
+                              type: string
+                            point:
+                              type: integer
+                            comment:
+                              type: string
+                          required:
+                            - question_id
+                            - ocr_result
+                            - point
+                            - comment
+                      pic_urls:
+                        type: array
+                        items:
+                          type: string
+                    required:
+                      - basic_info
+                      - questions
+                      - pic_urls
+                  msg:
+                    type: string
+                required:
+                  - code
+                  - data
+                  - msg
+              example:
+                code: 200
+                data:
+                  basic_info:
+                    id: 76
+                    student_id: 2
+                    exam_id: 1
+                    total_grade: 0
+                    is_eva: false
+                    student_name: lzk
+                  questions:
+                    - question_id: 1
+                      ocr_result: >-
+                        ①为诸多生物提供栖息地，保护生物多样性； ②作为我国最广阔、年轻的湿地，为研究人员提供宝贵的研究对象；
+                        ③黄河泥沙的淤积地，可作为后备耕地
+                      point: 0
+                      comment: ''
+                    - question_id: 2
+                      ocr_result: >-
+                        ①当地廉价劳动力充足，有利于降低生产成本；②政府扶持该产业发展，有降低税收等优惠政策；③
+                        区域靠近高科技园区智力型劳动力充足；
+                      point: 0
+                      comment: ''
+                    - question_id: 3
+                      ocr_result: ''
+                      point: 0
+                      comment: ''
+                    - question_id: 4
+                      ocr_result: >-
+                        ①由于橄榄种植区最北为闽江中下游，纬度低，热量充足，
+                        且多生长于低丘缓坡，推测其喜热、怕涝②由于其分布在季风区、推测其喜湿。
+                      point: 0
+                      comment: ''
+                    - question_id: 5
+                      ocr_result: ①位于冬季风的迎风坡，受冷空气影响较大，气湿较低； ②冬季太阳直射南半球，北半球大阳高度小，日照时间短，气温低。
+                      point: 0
+                      comment: ''
+                    - question_id: 6
+                      ocr_result: >-
+                        ①制约橄榄树分布区扩展的因素之一为冬季的冻害威胁。 冬季水库蓄水位高，水量大，因为水的比热容大，
+                        温度相对较高，导致库区周边地区气温降辐小，更温暖，满足橄榄需求；② 水库蓄水导致空气湿度增大，符合橄榄习性
+                      point: 0
+                      comment: ''
+                    - question_id: 7
+                      ocr_result: >-
+                        ①延长产业链。制成保健品。增加附加值；②加大宣传力度， 形成品牌效应；③加强基础设施建设，尤其是交通。
+                        打造生态旅游；④改进冷藏保鲜技术，扩大产品市场，增加辐射半径。
+                      point: 0
+                      comment: ''
+                    - question_id: 8
+                      ocr_result: >-
+                        答：距今约18ka
+                        ,理由：在距今约18ka期间，沉积物为钙质粉砂，说明该地质历史期间，沉积环境为深水，以堆积作用为主，符合古湖特征。
+                      point: 0
+                      comment: ''
+                    - question_id: 9
+                      ocr_result: >-
+                        答：①地壳抬开，湖盆上升，外力作用以侵蚀为主，由不整合面可看出。②气候干旱，降水减少，蒸发旺盛，湖泊来水量减少，水位下降乃至逐渐千涸。
+                      point: 0
+                      comment: ''
+                    - question_id: 10
+                      ocr_result: >-
+                        答：特征：干湿季交替交化、无明显周期，且不稳定依据：①沉积物呈现深水堆积物一千旱环境产物(石膏)重复沉积序列，说明沉积环境干湿交替交化。
+                        推测降水量变化剧烈；②各沉积层厚度不一，于、 湿层序列不一致，说明降水不稳定。
+                      point: 0
+                      comment: ''
+                  pic_urls:
+                    - >-
+                      http://122.51.185.92:9000/answersheet/76_0?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=8cDSEMIvKbeBMjSctDGl%2F20241101%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20241101T082845Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=4e2c47acf0dd1a35c0f88218720ac225a91cd675e1b1216c9ec95846e49d9500
+                msg: success
+          headers: {}
+      security:
+        - bearer: []
+  /answersheet/batchEvaluator:
+    get:
+      summary: 一键评分
+      deprecated: false
+      description: ''
+      tags:
+        - answersheet
+      parameters:
+        - name: exam_id
+          in: query
+          description: ''
+          required: false
+          schema:
+            type: string
+        - name: class_id
+          in: query
+          description: ''
+          required: false
+          schema:
+            type: string
+        - name: is_skip
+          in: query
+          description: 0不跳过已经评过分的，1跳过
+          required: true
+          example: 0
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+              example:
+                code: 200
+                data:
+                  - basic_info:
+                      id: 1
+                      student_id: 1
+                      exam_id: 1
+                      total_grade: 100
+                    pic_urls:
+                      - >-
+                        http://122.51.185.92:9000/answersheet/1_0_thumbnail?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=8cDSEMIvKbeBMjSctDGl%2F20241016%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20241016T065043Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=351bc34f189188b56f59b5315aa817b2f0e4a5235e304adef6f5eb8d8269b64f
+                  - basic_info:
+                      id: 2
+                      student_id: 1
+                      exam_id: 1
+                      total_grade: 100
+                    pic_urls:
+                      - >-
+                        http://122.51.185.92:9000/answersheet/2_0_thumbnail?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=8cDSEMIvKbeBMjSctDGl%2F20241016%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20241016T065043Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=f800c95dc612ab339b5065bab9f8ab6b82c6bb8b0ca672d0b242d93b024dfe91
+                  - basic_info:
+                      id: 7
+                      student_id: 2
+                      exam_id: 1
+                      total_grade: 8
+                    pic_urls:
+                      - >-
+                        http://122.51.185.92:9000/answersheet/7_0_thumbnail?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=8cDSEMIvKbeBMjSctDGl%2F20241016%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20241016T065043Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=c2ab665145c6473ed5752a3c3b1554149b46da22d67da153fb0721c276851bcd
+                  - basic_info:
+                      id: 34
+                      student_id: 2
+                      exam_id: 2
+                      total_grade: 0
+                    pic_urls:
+                      - >-
+                        http://122.51.185.92:9000/answersheet/34_0_thumbnail?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=8cDSEMIvKbeBMjSctDGl%2F20241016%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20241016T065043Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=8db4e5bc1e1da00aa2807a8dae94c178971616a0cd5b0d01802489a2eb8c631d
+                  - basic_info:
+                      id: 36
+                      student_id: 2
+                      exam_id: 5
+                      total_grade: 0
+                    pic_urls:
+                      - >-
+                        http://122.51.185.92:9000/answersheet/36_0_thumbnail?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=8cDSEMIvKbeBMjSctDGl%2F20241016%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20241016T065043Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=4ff0aa7d7464e366fa355eb77662a77d5f22348e72aa7bf47a53af20c665d62b
+                  - basic_info:
+                      id: 37
+                      student_id: 1
+                      exam_id: 5
+                      total_grade: 0
+                    pic_urls:
+                      - >-
+                        http://122.51.185.92:9000/answersheet/37_0_thumbnail?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=8cDSEMIvKbeBMjSctDGl%2F20241016%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20241016T065043Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=5714fd9770479d189e3dd908be709342f4be599e4ab06c865ad6fdc8e938dd11
+                  - basic_info:
+                      id: 38
+                      student_id: 1
+                      exam_id: 2
+                      total_grade: 0
+                    pic_urls:
+                      - >-
+                        http://122.51.185.92:9000/answersheet/38_0_thumbnail?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=8cDSEMIvKbeBMjSctDGl%2F20241016%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20241016T065043Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=fe82f6fbff47d22fe116ab9efed8f9e14b91d5c8d10f77f6c6938fea53294736
+                  - basic_info:
+                      id: 40
+                      student_id: 2
+                      exam_id: 9
+                      total_grade: 0
+                    pic_urls:
+                      - >-
+                        http://122.51.185.92:9000/answersheet/40_0_thumbnail?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=8cDSEMIvKbeBMjSctDGl%2F20241016%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20241016T065043Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=278e08603081fc28af92806587a0b3f72a2ff0cb43327d62cc60cdc92c42179c
+                  - basic_info:
+                      id: 51
+                      student_id: 1
+                      exam_id: 9
+                      total_grade: 40
+                    pic_urls:
+                      - >-
+                        http://122.51.185.92:9000/answersheet/51_0_thumbnail?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=8cDSEMIvKbeBMjSctDGl%2F20241016%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20241016T065043Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=ee6a02831e53714fd53da5308ecfef306843ce2c31d246629060f8accb6ebf98
+                  - basic_info:
+                      id: 52
+                      student_id: 8
+                      exam_id: 9
+                      total_grade: 39
+                    pic_urls:
+                      - >-
+                        http://122.51.185.92:9000/answersheet/52_0_thumbnail?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=8cDSEMIvKbeBMjSctDGl%2F20241016%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20241016T065043Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=ab41cb35d6b2b9e4d699ead849b2c8b1496ea02afdf1407585db5ebce8dc9fc3
+                  - basic_info:
+                      id: 55
+                      student_id: 9
+                      exam_id: 9
+                      total_grade: 0
+                    pic_urls:
+                      - >-
+                        http://122.51.185.92:9000/answersheet/55_0_thumbnail?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=8cDSEMIvKbeBMjSctDGl%2F20241016%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20241016T065043Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=c38e674cd435582a0bc02cc968f76ccc534fb73caf4b33e856245eb680a9b158
+                  - basic_info:
+                      id: 56
+                      student_id: 9
+                      exam_id: 8
+                      total_grade: 0
+                    pic_urls:
+                      - >-
+                        http://122.51.185.92:9000/answersheet/56_0_thumbnail?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=8cDSEMIvKbeBMjSctDGl%2F20241016%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20241016T065043Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=fbe7693719aac3951c11d8bd3e5ea6e75dcc66bd0e453eef7b75025235029f65
+                  - basic_info:
+                      id: 57
+                      student_id: 1
+                      exam_id: 8
+                      total_grade: 0
+                    pic_urls:
+                      - >-
+                        http://122.51.185.92:9000/answersheet/57_0_thumbnail?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=8cDSEMIvKbeBMjSctDGl%2F20241016%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20241016T065043Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=137c327f680dbe33a79751a99ce18e49193e355b243656476744141a40e58a87
+                  - basic_info:
+                      id: 58
+                      student_id: 9
+                      exam_id: 5
+                      total_grade: 0
+                    pic_urls:
+                      - >-
+                        http://122.51.185.92:9000/answersheet/58_0_thumbnail?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=8cDSEMIvKbeBMjSctDGl%2F20241016%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20241016T065043Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=e6310bf892e5d10a01167cedf921f77f64a7e07de1121817315de4c3718baac1
+                  - basic_info:
+                      id: 59
+                      student_id: 1
+                      exam_id: 11
+                      total_grade: 0
+                    pic_urls:
+                      - >-
+                        http://122.51.185.92:9000/answersheet/59_0_thumbnail?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=8cDSEMIvKbeBMjSctDGl%2F20241016%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20241016T065043Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=09c45746df6dcfdaf9c3571ed1ad49e69615f0b4cd9dff8f827f6c3294c5590b
+                      - >-
+                        http://122.51.185.92:9000/answersheet/59_1_thumbnail?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=8cDSEMIvKbeBMjSctDGl%2F20241016%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20241016T065043Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=4d45229e87d0352bc0b8986d5b3837da2c7b444bf9e6b49cd0292d890bbdd89d
+                  - basic_info:
+                      id: 60
+                      student_id: 2
+                      exam_id: 11
+                      total_grade: 0
+                    pic_urls:
+                      - >-
+                        http://122.51.185.92:9000/answersheet/60_0_thumbnail?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=8cDSEMIvKbeBMjSctDGl%2F20241016%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20241016T065043Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=236ef62ff080a966a84d70b4bba5220985de3d39134e2eda5cb0801b3c1e8570
+                      - >-
+                        http://122.51.185.92:9000/answersheet/60_1_thumbnail?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=8cDSEMIvKbeBMjSctDGl%2F20241016%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20241016T065043Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=d70447cf81afdb2fc2dcc80975ef9729eaf3d9e54423ae65b57cac69cfdc9adc
+                msg: success
+          headers: {}
+      security:
+        - bearer: []
+  /exam/addExam:
+    post:
+      summary: 创建测验
+      deprecated: false
+      description: ''
+      tags:
+        - exam
+      parameters: []
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                creater:
+                  example: '1'
+                  type: string
+                title:
+                  example: 高三第二学期地理3月月考
+                  type: string
+                qnumber:
+                  example: '9'
+                  type: string
+                type:
+                  description: 0表示单张答题纸，1表示多张
+                  example: '1'
+                  type: string
+                answer:
+                  example: ''
+                  type: string
+                  format: binary
+                question:
+                  example: ''
+                  type: string
+                  format: binary
+              required:
+                - creater
+                - title
+                - qnumber
+                - type
+                - answer
+                - question
+            example:
+              creater: 1
+              title: 高三第二学期地理3月月考
+              qnumber: 9
+              type: 1
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+              example:
+                code: 200
+                data: 16
+                msg: success
+          headers: {}
+      security:
+        - bearer: []
+  /exam/getAllExam:
+    get:
+      summary: 获取测验列表
+      deprecated: false
+      description: ''
+      tags:
+        - exam
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+              example:
+                code: 200
+                data:
+                  - exam_id: 1
+                    title: 2024高等数学
+                    create_date: '2024-09-15T00:00:00+08:00'
+                    creater: 1
+                  - exam_id: 2
+                    title: 高三年级第一次月考
+                    create_date: '2024-09-16T10:00:00+08:00'
+                    creater: 1
+                  - exam_id: 3
+                    title: 高三年级第二次月考
+                    create_date: '2024-09-16T08:53:44+08:00'
+                    creater: 1
+                msg: success
+          headers: {}
+      security:
+        - bearer: []
+  /exam/updateExam:
+    put:
+      summary: 更新测验标题
+      deprecated: false
+      description: ''
+      tags:
+        - exam
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties: {}
+            example:
+              exam_id: 3
+              title: 高三年级第二次月考
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+              example:
+                code: 200
+                msg: success
+          headers: {}
+      security:
+        - bearer: []
+  /exam/deleteExam:
+    delete:
+      summary: 删除测验
+      deprecated: false
+      description: ''
+      tags:
+        - exam
+      parameters:
+        - name: id
+          in: query
+          description: ID 编号
+          required: true
+          example: '3'
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+              example:
+                code: 200
+                msg: success
+          headers: {}
+      security:
+        - bearer: []
+  /exam/setQuestionDetail:
+    post:
+      summary: 设置小题分值和题号
+      deprecated: true
+      description: ''
+      tags:
+        - exam
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties: {}
+            example:
+              exam_id: 1
+              qid: 1
+              point: 10
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+              example:
+                code: 200
+                msg: success
+          headers: {}
+      security:
+        - bearer: []
+  /exam/correctAnswerExtractor:
+    put:
+      summary: 修正Answer
+      deprecated: true
+      description: ''
+      tags:
+        - exam
+      parameters:
+        - name: id
+          in: query
+          description: ID 编号
+          required: true
+          example: '1'
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties: {}
+            example:
+              - Title: 三、长江经济带横贯东西、承接南北，是区域协调发展的重点。（16分）
+                Questions:
+                  - Number: '15'
+                    Content: （1）Ⅲ（2）地形（每题1分，共2分）
+                  - Number: '16'
+                    Content: >-
+                      人们消费水平快速上升；不合理的人类活动，导致环境污染；全球变暖等生态环境日益加剧；泥石流、滑坡等自然灾害增加等。（任答2点，共4分）
+                  - Number: '17'
+                    Content: （1）A（2）B（3）A（每题1分，共3分）
+                  - Number: '18'
+                    Content: A C D（全部选对得3分，选对2个得2分，选对1个得1分，选错不得分）
+                  - Number: '19'
+                    Content: >-
+                      提高运输效率，使人流、物流在区域间的流动更加便捷和高效，加强区域间的联系；扩大武汉的辐射范围，促进区域间沟通，带动武汉都市圈其他城市发展，缩小区域发展的不平衡；加强武汉与其他国家的联系，提升武汉国际交通枢纽的地位等。（任答2点，共4分）
+              - Title: 四、“开门七件事，柴米油盐酱醋茶”，如何在有限的土地上多生产油料是保证食用油安全的关键问题。（22分）
+                Questions:
+                  - Number: '20'
+                    Content: （1）花生油（1分）（2)连线题（2分）（共3分）
+                  - Number: '21'
+                    Content: （1）原料（2）市场/交通（每题1分，共2分）
+                  - Number: '22'
+                    Content: A D（全部选对得3分，选对1个得2分）
+                  - Number: '23'
+                    Content: >-
+                      进口总量：2022年我国油籽及成品植物油脂进口总量都大，油籽进口量更大；（2分）
+
+                      构成特点：各油籽和成品油脂进口量差异很大；油籽进口以大豆为主，占绝对优势；成品植物油脂进口以棕榈油为主。（任答2点，4分）（共6分）
+                  - Number: '24'
+                    Content: >-
+                      采取培育优良品种，提高油料作物产量，提高自给率，减少对国际市场的依赖；提升压榨技术，提升产油率；扩大木本油料作物的种植面积；加强健康教育宣传，减少居民吃油量；颁布相关优惠政策，支持国产油籽的生产；开发新型油脂。（任答2点，共4分）
+                  - Number: '25'
+                    Content: >-
+                      木本油料作物的种植不与粮争地，有利于扩大粮食种植面积（必答点）；提高食用油产量，提高自给率，减少对国际市场的依赖；减少粮食油料产量，保障粮食的供给量，保障国家粮食安全；木本油料种类多，能满足居民吃好油，有利于人体健康。（其余任答1点，共4分）
+
+                      吉布提是“一带一路”重要国家之一，进入了人口城市和经济发展的新阶段。（22分）
+              - Title: >
+                  五、吉布提是“一带一路”重要国家之一，进入了人口城市和经济发展的新阶段。（22分）
+
+                  材料一：我国与吉布提合作开发阿萨尔湖盐资源，形成“资源+”开发模式，将境外基础设施建设与资源开发有效打通、将境外的优势资源与境内的技术和资本有效嫁接。
+
+                  材料二：吉布提国际自贸区项目，仿照深圳蛇口采用“前港—中区—后城”
+                  的发展模式，通过港口建设运营先行，形成良好的物流交通基础，再依托港口配套发展产业园区，最后借力港口与产业园区带来的人口和产业基础，进行城市新区的开发建设，实现整个区域的转型升级。
+
+                  图1 吉布提附近地区简图图2 吉布提国际自贸区发展模式
+
+                  图3 2022年吉布提人口结构统计
+                Questions:
+                  - Number: '26'
+                    Content: （1）B（2）A（3）B（3）A（每题一分，共4分）
+                  - Number: '27'
+                    Content: D（2分）
+                  - Number: '28'
+                    Content: >-
+                      塔朱拉湾补给的水源盐度高，带来大量盐分；（2分）地处沙漠之中，降水稀少，无淡水河流注入，湖泊缺乏淡水稀释；（2分）阿萨尔湖地区为热带沙漠气候，终年炎热干燥，湖水蒸发旺盛，盐分累积，导致阿萨尔湖湖水盐度极高。（2分）（任答2点，共4分）。
+                  - Number: '29'
+                    Content: |-
+                      中国：一带一路政策的支持；资金和技术力量雄厚等。
+                      吉布提：盐矿资源丰富，提供原材料；距海港近，交通便利。
+                      （从吉布提和中国两个方面回答，每个国家至少1点，任答3点，共6分）
+                  - Number: '30'
+                    Content: |-
+                      前港：新港口增加货物吞吐量，加快物流周转速度，促进交通运输业的发展；
+                      中区：中区的设立促进招商引资，加快工业化进程；
+                      后港：后城是老港转型成为新的商业中心，促进第三产业服务业的发展。
+                      （前港、中区、后港各2分，共6分）
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+              example:
+                code: 200
+                msg: success
+          headers: {}
+      security:
+        - bearer: []
+  /exam/correctQuestionExtractor:
+    put:
+      summary: 修正Qustion
+      deprecated: true
+      description: ''
+      tags:
+        - exam
+      parameters:
+        - name: id
+          in: query
+          description: ID 编号
+          required: true
+          example: '1'
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties: {}
+            example:
+              data:
+                - Title: >-
+                    三、长江经济带横贯东西、承接南北，是区域协调发展的重点。（16分）
+
+                    材料一：胡焕庸线是我国人口分界线，也是我国资源环境承载力分界线。为深入研究我国人口分布格局，有学者将该线以东区域细化为3个梯度。
+
+                    材料二：2022年，武汉都市圈成为中国第7个国家级都市圈。武汉是国家中心城市之一，将升级打造一体化综合交通体系，基本形成都市圈1小时通勤、城市群2小时通达、全国主要城市3小时覆盖的“全国123出行交通圈”，依托航空、高铁融入“全球123快货物流圈”。
+                  Questions:
+                    - Number: '15'
+                      Point: '5'
+                      Content: 胡焕庸线以东的Ⅱ区域、Ⅲ区域中，人口密度较小的是（1）；造成这种现象的主要自然因素是（2）。（2分）
+                      Answer: '12345'
+                    - Number: '16'
+                      Content: 有研究显示，I区域的人口合理容量正不断减少，推测造成这种变化的原因。（4分）
+                    - Number: '17'
+                      Content: >-
+                        习近平总书记强调，生态安全关系长江经济带的可持续发展。Ⅰ区域内长江源头对应的是（1）（A.涵养水源
+                        B.洪水调蓄）功能区，Ⅱ区域重点治理的生态环境问题为（2）（A.土地荒漠化
+                        B.水土流失）；Ⅳ区域重点治理的生态环境问题为（3）（A.水污染 B.赤潮）。（3分）
+                    - Number: '18'
+                      Content: >-
+                        国家中心城市是全国城镇体系中处于最高层级的城市。武汉被认定为国家中心城市的主要依据是（    ）。（多选题
+                        3分）
+
+                        A.地理位置B.矿产资源C.城市功能D.经济发展水平
+                    - Number: '19'
+                      Content: 说明武汉升级打造一体化综合交通体系对武汉都市圈社会经济发展的影响。（4分）
+                - Title: >-
+                    四、“开门七件事，柴米油盐酱醋茶”，如何在有限的土地上多生产油料是保证食用油安全的关键问题。（22分）
+
+                    我国食用油年消费总量连续多年位居世界第一，人均吃油量也高于全球平均水平。2017-2022年，我国食用油的自给率均在30%左右。大豆油、花生油、菜籽油、芝麻油、葵花籽油、油茶籽油、棉籽油、亚麻籽油是我国八大食用油，除茶油是木本油料外，其他都是草本油料。近年来，出现了许多新型木本油料（如樟树籽油等），木本油料最大优点是不与粮争地，在丘陵山地都能种植。
+                  Questions:
+                    - Number: '20'
+                      Content: >-
+                        我国菜系众多，不同菜系所用的食用油不同，（1）川菜和菜籽油就是完美搭档，鲁菜和油是亲密伴侣。（2）根据图1，将下列油料与其在我国主要种植地用直线进行连接。（3分）
+                    - Number: '21'
+                      Content: 食用油加工企业大部分属于（1）主导型工业，而沿海地区形成大豆加工产业区的主要区位因素是（2）。（2分）
+                    - Number: '22'
+                      Content: |-
+                        从材料中可知，影响我国食用油稳定供给的主要问题是（     ）。（多选题3分）
+                        A.对外依存度过大                         B.木本油料等新油料的出现
+                        C.成品植物油脂的进口量大于油籽进口量     D.大豆进口占比过大
+                    - Number: '23'
+                      Content: 根据图表材料，概括2022年我国油籽及成品植物油脂进口总量及构成特点。（6分）
+                    - Number: '24'
+                      Content: 为确保食用油安全，我国可以采取哪些合理措施？（4分）
+                    - Number: '25'
+                      Content: 说明我国推广木本油料作物种植对保障我国国家安全的积极意义。(4分）
+                - Title: >
+                    五、吉布提是“一带一路”重要国家之一，进入了人口城市和经济发展的新阶段。（22分）
+
+                    材料一：我国与吉布提合作开发阿萨尔湖盐资源，形成“资源+”开发模式，将境外基础设施建设与资源开发有效打通、将境外的优势资源与境内的技术和资本有效嫁接。
+
+                    材料二：吉布提国际自贸区项目，仿照深圳蛇口采用“前港—中区—后城”
+                    的发展模式，通过港口建设运营先行，形成良好的物流交通基础，再依托港口配套发展产业园区，最后借力港口与产业园区带来的人口和产业基础，进行城市新区的开发建设，实现整个区域的转型升级。
+
+                    图1 吉布提附近地区简图图2 吉布提国际自贸区发展模式
+
+                    图3 2022年吉布提人口结构统计
+                  Questions:
+                    - Number: '26'
+                      Content: 据图3判断吉布提人口和城镇化的特点。（4分）
+                    - Number: '27'
+                      Content: >-
+                        亚吉铁路是一条连接埃塞俄比亚和吉布提客货两用、以货运为主的标准轨距电气化铁路，该铁路的开通将直接导致吉布提港（    
+                        ）（2分）
+
+                        A．港区通航条件改善                 B．城市人口比重增加
+
+                        C．城市等级得到提升                 D．港口经济腹地扩大
+                    - Number: '28'
+                      Content: >-
+                        阿萨尔湖盐度高达34.8％，地质历史时期曾有地下通道与塔朱拉湾相通，是世界上唯一没有地表入水口也没有出水口的内陆湖泊。从水循环角度简析其盐度高的原因。（4分）
+                    - Number: '29'
+                      Content: 简述中吉两国在阿萨尔湖发展“资源+”开发模式的优势条件。（6分）
+                    - Number: '30'
+                      Content: 分别说明吉布提自贸区发展模式“前港—中区—后城”对经济发展的促进作用。（6分）
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+              example:
+                code: 200
+                msg: success
+          headers: {}
+      security:
+        - bearer: []
+  /exam/getExamDetail:
+    get:
+      summary: 获取测验信息
+      deprecated: false
+      description: ''
+      tags:
+        - exam
+      parameters:
+        - name: id
+          in: query
+          description: ''
+          required: true
+          example: '10'
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                  data:
+                    type: object
+                    properties:
+                      exam_id:
+                        type: integer
+                      data:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            Title:
+                              type: string
+                            Questions:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  Point:
+                                    type: integer
+                                  Number:
+                                    type: string
+                                  Content:
+                                    type: string
+                                  Answer:
+                                    type: string
+                                required:
+                                  - Point
+                                  - Number
+                                  - Content
+                                  - Answer
+                          required:
+                            - Title
+                            - Questions
+                    required:
+                      - exam_id
+                      - data
+                  msg:
+                    type: string
+                required:
+                  - code
+                  - data
+                  - msg
+              example:
+                code: 200
+                data:
+                  exam_id: 16
+                  data:
+                    - Title: >-
+                        三、长江经济带横贯东西、承接南北，是区域协调发展的重点。（16分）
+
+                        材料一：胡焕庸线是我国人口分界线，也是我国资源环境承载力分界线。为深入研究我国人口分布格局，有学者将该线以东区域细化为3个梯度。
+
+                        材料二：2022年，武汉都市圈成为中国第7个国家级都市圈。武汉是国家中心城市之一，将升级打造一体化综合交通体系，基本形成都市圈1小时通勤、城市群2小时通达、全国主要城市3小时覆盖的“全国123出行交通圈”，依托航空、高铁融入“全球123快货物流圈”。
+                      Questions:
+                        - Point: 2
+                          Number: '15'
+                          Content: 胡焕庸线以东的Ⅱ区域、Ⅲ区域中，人口密度较小的是（1）；造成这种现象的主要自然因素是（2）。（2分）
+                          Answer: Ⅲ区域地形复杂，气候较为干旱
+                        - Point: 4
+                          Number: '16'
+                          Content: 有研究显示，I区域的人口合理容量正不断减少，推测造成这种变化的原因。（4分）
+                          Answer: 环境压力增加，生态保护需求提升，资源承载力减弱
+                        - Point: 3
+                          Number: '17'
+                          Content: >-
+                            习近平总书记强调，生态安全关系长江经济带的可持续发展。Ⅰ区域内长江源头对应的是（1）（A.涵养水源
+                            B.洪水调蓄）功能区，Ⅱ区域重点治理的生态环境问题为（2）（A.土地荒漠化
+                            B.水土流失）；Ⅳ区域重点治理的生态环境问题为（3）（A.水污染 B.赤潮）。（3分）
+                          Answer: A.涵养水源 B.水土流失 A.水污染
+                        - Point: 3
+                          Number: '18'
+                          Content: >-
+                            国家中心城市是全国城镇体系中处于最高层级的城市。武汉被认定为国家中心城市的主要依据是（   
+                            ）。（多选题 3分）
+
+                            A.地理位置B.矿产资源C.城市功能D.经济发展水平
+                          Answer: ACD
+                        - Point: 4
+                          Number: '19'
+                          Content: 说明武汉升级打造一体化综合交通体系对武汉都市圈社会经济发展的影响。（4分）
+                          Answer: 提升区域经济一体化水平，改善通勤条件，推动物流和产业集聚，提升区域经济竞争力
+                    - Title: >-
+                        四、“开门七件事，柴米油盐酱醋茶”，如何在有限的土地上多生产油料是保证食用油安全的关键问题。（22分）
+
+                        我国食用油年消费总量连续多年位居世界第一，人均吃油量也高于全球平均水平。2017-2022年，我国食用油的自给率均在30%左右。大豆油、花生油、菜籽油、芝麻油、葵花籽油、油茶籽油、棉籽油、亚麻籽油是我国八大食用油，除茶油是木本油料外，其他都是草本油料。近年来，出现了许多新型木本油料（如樟树籽油等），木本油料最大优点是不与粮争地，在丘陵山地都能种植。
+                      Questions:
+                        - Point: 2
+                          Number: '15'
+                          Content: >-
+                            我国菜系众多，不同菜系所用的食用油不同，（1）川菜和菜籽油就是完美搭档，鲁菜和油是亲密伴侣。（2）根据图1，将下列油料与其在我国主要种植地用直线进行连接。（3分）
+                          Answer: 川菜-菜籽油 鲁菜-花生油
+                        - Point: 4
+                          Number: '16'
+                          Content: 食用油加工企业大部分属于（1）主导型工业，而沿海地区形成大豆加工产业区的主要区位因素是（2）。（2分）
+                          Answer: 资源 交通便利
+                        - Point: 3
+                          Number: '17'
+                          Content: |-
+                            从材料中可知，影响我国食用油稳定供给的主要问题是（     ）。（多选题3分）
+                            A.对外依存度过大                         B.木本油料等新油料的出现
+                            C.成品植物油脂的进口量大于油籽进口量     D.大豆进口占比过大
+                          Answer: A D
+                        - Point: 3
+                          Number: '18'
+                          Content: 根据图表材料，概括2022年我国油籽及成品植物油脂进口总量及构成特点。（6分）
+                          Answer: 2022年油籽及成品植物油脂进口总量较大，主要依赖大豆进口，成品油脂进口比例低
+                        - Point: 4
+                          Number: '19'
+                          Content: 为确保食用油安全，我国可以采取哪些合理措施？（4分）
+                          Answer: 提高油料作物自给率，鼓励木本油料发展，加强对外合作，优化进口渠道
+                        - Point: 3
+                          Number: '20'
+                          Content: 说明我国推广木本油料作物种植对保障我国国家安全的积极意义。(4分）
+                          Answer: 减少对进口依赖，提升农业可持续性，保障食用油供应安全
+                    - Title: >-
+                        五、吉布提是“一带一路”重要国家之一，进入了人口城市和经济发展的新阶段。（22分）
+
+                        材料一：我国与吉布提合作开发阿萨尔湖盐资源，形成“资源+”开发模式，将境外基础设施建设与资源开发有效打通、将境外的优势资源与境内的技术和资本有效嫁接。
+
+                        材料二：吉布提国际自贸区项目，仿照深圳蛇口采用“前港—中区—后城”
+                        的发展模式，通过港口建设运营先行，形成良好的物流交通基础，再依托港口配套发展产业园区，最后借力港口与产业园区带来的人口和产业基础，进行城市新区的开发建设，实现整个区域的转型升级。
+                      Questions:
+                        - Point: 2
+                          Number: '15'
+                          Content: 据图3判断吉布提人口和城镇化的特点。（4分）
+                          Answer: 人口增长较快，城镇化率低，城市人口主要集中在港口地区
+                        - Point: 4
+                          Number: '16'
+                          Content: >-
+                            亚吉铁路是一条连接埃塞俄比亚和吉布提客货两用、以货运为主的标准轨距电气化铁路，该铁路的开通将直接导致吉布提港（    
+                            ）（2分）
+
+                            A．港区通航条件改善                 B．城市人口比重增加
+
+                            C．城市等级得到提升                 D．港口经济腹地扩大
+                          Answer: D.港口经济腹地扩大
+                        - Point: 3
+                          Number: '17'
+                          Content: >-
+                            阿萨尔湖盐度高达34.8％，地质历史时期曾有地下通道与塔朱拉湾相通，是世界上唯一没有地表入水口也没有出水口的内陆湖泊。从水循环角度简析其盐度高的原因。（4分）
+                          Answer: 蒸发量大且无出口，水循环有限，盐分不断积累
+                        - Point: 3
+                          Number: '18'
+                          Content: 简述中吉两国在阿萨尔湖发展“资源+”开发模式的优势条件。（6分）
+                          Answer: 地理位置优越，盐资源丰富，双方技术和资本互补，市场需求大
+                        - Point: 4
+                          Number: '19'
+                          Content: 分别说明吉布提自贸区发展模式“前港—中区—后城”对经济发展的促进作用。（6分）
+                          Answer: 前港推动物流发展，中区带动产业集聚，后城促进城市扩展，实现区域经济转型升级
+                msg: success
+          headers: {}
+      security:
+        - bearer: []
+  /exam/yituo:
+    put:
+      summary: 修正文档解析结果，包括title，question，answer，小题分值与题号
+      deprecated: false
+      description: ''
+      tags:
+        - exam
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                exam_id:
+                  type: integer
+                data:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      Title:
+                        type: string
+                      Questions:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            Number:
+                              type: string
+                            Point:
+                              type: integer
+                            Content:
+                              type: string
+                            Answer:
+                              type: string
+                          required:
+                            - Number
+                            - Point
+                            - Content
+                            - Answer
+                    required:
+                      - Title
+                      - Questions
+              required:
+                - exam_id
+                - data
+            example:
+              exam_id: 16
+              data:
+                - Title: >-
+                    三、长江经济带横贯东西、承接南北，是区域协调发展的重点。（16分）
+
+                    材料一：胡焕庸线是我国人口分界线，也是我国资源环境承载力分界线。为深入研究我国人口分布格局，有学者将该线以东区域细化为3个梯度。
+
+                    材料二：2022年，武汉都市圈成为中国第7个国家级都市圈。武汉是国家中心城市之一，将升级打造一体化综合交通体系，基本形成都市圈1小时通勤、城市群2小时通达、全国主要城市3小时覆盖的“全国123出行交通圈”，依托航空、高铁融入“全球123快货物流圈”。
+                  Questions:
+                    - Number: '15'
+                      Point: 2
+                      Content: 胡焕庸线以东的Ⅱ区域、Ⅲ区域中，人口密度较小的是（1）；造成这种现象的主要自然因素是（2）。（2分）
+                      Answer: Ⅲ区域地形复杂，气候较为干旱
+                    - Number: '16'
+                      Point: 4
+                      Content: 有研究显示，I区域的人口合理容量正不断减少，推测造成这种变化的原因。（4分）
+                      Answer: 环境压力增加，生态保护需求提升，资源承载力减弱
+                    - Number: '17'
+                      Point: 3
+                      Content: >-
+                        习近平总书记强调，生态安全关系长江经济带的可持续发展。Ⅰ区域内长江源头对应的是（1）（A.涵养水源
+                        B.洪水调蓄）功能区，Ⅱ区域重点治理的生态环境问题为（2）（A.土地荒漠化
+                        B.水土流失）；Ⅳ区域重点治理的生态环境问题为（3）（A.水污染 B.赤潮）。（3分）
+                      Answer: A.涵养水源 B.水土流失 A.水污染
+                    - Number: '18'
+                      Point: 3
+                      Content: >-
+                        国家中心城市是全国城镇体系中处于最高层级的城市。武汉被认定为国家中心城市的主要依据是（    ）。（多选题
+                        3分）
+
+                        A.地理位置B.矿产资源C.城市功能D.经济发展水平
+                      Answer: ACD
+                    - Number: '19'
+                      Point: 4
+                      Content: 说明武汉升级打造一体化综合交通体系对武汉都市圈社会经济发展的影响。（4分）
+                      Answer: 提升区域经济一体化水平，改善通勤条件，推动物流和产业集聚，提升区域经济竞争力
+                - Title: >-
+                    四、“开门七件事，柴米油盐酱醋茶”，如何在有限的土地上多生产油料是保证食用油安全的关键问题。（22分）
+
+                    我国食用油年消费总量连续多年位居世界第一，人均吃油量也高于全球平均水平。2017-2022年，我国食用油的自给率均在30%左右。大豆油、花生油、菜籽油、芝麻油、葵花籽油、油茶籽油、棉籽油、亚麻籽油是我国八大食用油，除茶油是木本油料外，其他都是草本油料。近年来，出现了许多新型木本油料（如樟树籽油等），木本油料最大优点是不与粮争地，在丘陵山地都能种植。
+                  Questions:
+                    - Number: '20'
+                      Point: 3
+                      Content: >-
+                        我国菜系众多，不同菜系所用的食用油不同，（1）川菜和菜籽油就是完美搭档，鲁菜和油是亲密伴侣。（2）根据图1，将下列油料与其在我国主要种植地用直线进行连接。（3分）
+                      Answer: 川菜-菜籽油 鲁菜-花生油
+                    - Number: '21'
+                      Point: 2
+                      Content: 食用油加工企业大部分属于（1）主导型工业，而沿海地区形成大豆加工产业区的主要区位因素是（2）。（2分）
+                      Answer: 资源 交通便利
+                    - Number: '22'
+                      Point: 3
+                      Content: |-
+                        从材料中可知，影响我国食用油稳定供给的主要问题是（     ）。（多选题3分）
+                        A.对外依存度过大                         B.木本油料等新油料的出现
+                        C.成品植物油脂的进口量大于油籽进口量     D.大豆进口占比过大
+                      Answer: A D
+                    - Number: '23'
+                      Point: 6
+                      Content: 根据图表材料，概括2022年我国油籽及成品植物油脂进口总量及构成特点。（6分）
+                      Answer: 2022年油籽及成品植物油脂进口总量较大，主要依赖大豆进口，成品油脂进口比例低
+                    - Number: '24'
+                      Point: 4
+                      Content: 为确保食用油安全，我国可以采取哪些合理措施？（4分）
+                      Answer: 提高油料作物自给率，鼓励木本油料发展，加强对外合作，优化进口渠道
+                    - Number: '25'
+                      Point: 4
+                      Content: 说明我国推广木本油料作物种植对保障我国国家安全的积极意义。(4分）
+                      Answer: 减少对进口依赖，提升农业可持续性，保障食用油供应安全
+                - Title: >-
+                    五、吉布提是“一带一路”重要国家之一，进入了人口城市和经济发展的新阶段。（22分）
+
+                    材料一：我国与吉布提合作开发阿萨尔湖盐资源，形成“资源+”开发模式，将境外基础设施建设与资源开发有效打通、将境外的优势资源与境内的技术和资本有效嫁接。
+
+                    材料二：吉布提国际自贸区项目，仿照深圳蛇口采用“前港—中区—后城”
+                    的发展模式，通过港口建设运营先行，形成良好的物流交通基础，再依托港口配套发展产业园区，最后借力港口与产业园区带来的人口和产业基础，进行城市新区的开发建设，实现整个区域的转型升级。
+                  Questions:
+                    - Number: '26'
+                      Point: 4
+                      Content: 据图3判断吉布提人口和城镇化的特点。（4分）
+                      Answer: 人口增长较快，城镇化率低，城市人口主要集中在港口地区
+                    - Number: '27'
+                      Point: 2
+                      Content: >-
+                        亚吉铁路是一条连接埃塞俄比亚和吉布提客货两用、以货运为主的标准轨距电气化铁路，该铁路的开通将直接导致吉布提港（    
+                        ）（2分）
+
+                        A．港区通航条件改善                 B．城市人口比重增加
+
+                        C．城市等级得到提升                 D．港口经济腹地扩大
+                      Answer: D.港口经济腹地扩大
+                    - Number: '28'
+                      Point: 4
+                      Content: >-
+                        阿萨尔湖盐度高达34.8％，地质历史时期曾有地下通道与塔朱拉湾相通，是世界上唯一没有地表入水口也没有出水口的内陆湖泊。从水循环角度简析其盐度高的原因。（4分）
+                      Answer: 蒸发量大且无出口，水循环有限，盐分不断积累
+                    - Number: '29'
+                      Point: 6
+                      Content: 简述中吉两国在阿萨尔湖发展“资源+”开发模式的优势条件。（6分）
+                      Answer: 地理位置优越，盐资源丰富，双方技术和资本互补，市场需求大
+                    - Number: '30'
+                      Point: 6
+                      Content: 分别说明吉布提自贸区发展模式“前港—中区—后城”对经济发展的促进作用。（6分）
+                      Answer: 前港推动物流发展，中区带动产业集聚，后城促进城市扩展，实现区域经济转型升级
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                  msg:
+                    type: string
+                required:
+                  - code
+                  - msg
+          headers: {}
+      security:
+        - bearer: []
+  /xueqing/getResultByQuestion:
+    get:
+      summary: 获取一次测验每道题得分情况
+      deprecated: false
+      description: ''
+      tags:
+        - xueqing
+      parameters:
+        - name: exam_id
+          in: query
+          description: ''
+          required: true
+          example: '9'
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+              example:
+                code: 200
+                data:
+                  - question_id: '6'
+                    scores:
+                      - student_id: 1
+                        score: 2
+                      - student_id: 2
+                        score: 0
+                      - student_id: 8
+                        score: 2
+                  - question_id: '8'
+                    scores:
+                      - student_id: 1
+                        score: 4
+                      - student_id: 2
+                        score: 0
+                      - student_id: 8
+                        score: 4
+                  - question_id: '9'
+                    scores:
+                      - student_id: 1
+                        score: 6
+                      - student_id: 2
+                        score: 0
+                      - student_id: 8
+                        score: 6
+                  - question_id: '3'
+                    scores:
+                      - student_id: 1
+                        score: 5
+                      - student_id: 2
+                        score: 0
+                      - student_id: 8
+                        score: 5
+                  - question_id: '4'
+                    scores:
+                      - student_id: 1
+                        score: 5
+                      - student_id: 2
+                        score: 0
+                      - student_id: 8
+                        score: 5
+                  - question_id: '5'
+                    scores:
+                      - student_id: 1
+                        score: 5
+                      - student_id: 2
+                        score: 0
+                      - student_id: 8
+                        score: 5
+                  - question_id: '7'
+                    scores:
+                      - student_id: 1
+                        score: 5
+                      - student_id: 2
+                        score: 0
+                      - student_id: 8
+                        score: 4
+                  - question_id: '10'
+                    scores:
+                      - student_id: 1
+                        score: 5
+                      - student_id: 2
+                        score: 0
+                      - student_id: 8
+                        score: 5
+                  - question_id: '1'
+                    scores:
+                      - student_id: 1
+                        score: 0
+                      - student_id: 2
+                        score: 0
+                      - student_id: 8
+                        score: 0
+                  - question_id: '2'
+                    scores:
+                      - student_id: 1
+                        score: 3
+                      - student_id: 2
+                        score: 0
+                      - student_id: 8
+                        score: 3
+                msg: success
+          headers: {}
+      security:
+        - bearer: []
+  /xueqing/getResultByStudent:
+    get:
+      summary: 获取每一次测验每个学生的得分情况
+      deprecated: false
+      description: ''
+      tags:
+        - xueqing
+      parameters:
+        - name: exam_id
+          in: query
+          description: ''
+          required: true
+          example: '9'
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+              example:
+                code: 200
+                data:
+                  - student_id: 1
+                    scores:
+                      - question_id: 1
+                        score: 0
+                      - question_id: 2
+                        score: 3
+                      - question_id: 3
+                        score: 5
+                      - question_id: 4
+                        score: 5
+                      - question_id: 5
+                        score: 5
+                      - question_id: 6
+                        score: 2
+                      - question_id: 7
+                        score: 5
+                      - question_id: 8
+                        score: 4
+                      - question_id: 9
+                        score: 6
+                      - question_id: 10
+                        score: 5
+                  - student_id: 2
+                    scores:
+                      - question_id: 1
+                        score: 0
+                      - question_id: 2
+                        score: 0
+                      - question_id: 3
+                        score: 0
+                      - question_id: 4
+                        score: 0
+                      - question_id: 5
+                        score: 0
+                      - question_id: 6
+                        score: 0
+                      - question_id: 7
+                        score: 0
+                      - question_id: 8
+                        score: 0
+                      - question_id: 9
+                        score: 0
+                      - question_id: 10
+                        score: 0
+                  - student_id: 8
+                    scores:
+                      - question_id: 1
+                        score: 0
+                      - question_id: 2
+                        score: 3
+                      - question_id: 3
+                        score: 5
+                      - question_id: 4
+                        score: 5
+                      - question_id: 5
+                        score: 5
+                      - question_id: 6
+                        score: 2
+                      - question_id: 7
+                        score: 4
+                      - question_id: 8
+                        score: 4
+                      - question_id: 9
+                        score: 6
+                      - question_id: 10
+                        score: 5
+                msg: success
+          headers: {}
+      security:
+        - bearer: []
+  /xueqing/getQuestionPointRate:
+    get:
+      summary: 获取一次测验每道题的得分率
+      deprecated: false
+      description: ''
+      tags:
+        - xueqing
+      parameters:
+        - name: exam_id
+          in: query
+          description: ''
+          required: true
+          example: '9'
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+              example:
+                code: 200
+                data:
+                  - 0
+                  - 0.4
+                  - 0.6666666666666667
+                  - 0.5555555555555556
+                  - 0.5555555555555556
+                  - 0.4444444444444444
+                  - 0.5
+                  - 0.4444444444444444
+                  - 0.5
+                  - 0.4761904761904762
+                msg: success
+          headers: {}
+      security:
+        - bearer: []
+  /xueqing/getNameList:
+    get:
+      summary: 获取一次测验学生优秀和尾部学生（27%）
+      deprecated: true
+      description: ''
+      tags:
+        - xueqing
+      parameters:
+        - name: exam_id
+          in: query
+          description: ''
+          required: true
+          example: '9'
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+              example:
+                code: 200
+                data:
+                  back:
+                    - id: 2
+                      student_id: 10225101536
+                      student_name: lzk
+                      grade: 0
+                  top:
+                    - id: 1
+                      student_id: 10225101537
+                      student_name: luzhufeng
+                      grade: 40
+                msg: success
+          headers: {}
+      security:
+        - bearer: []
+  /xueqing/getExamData:
+    get:
+      summary: 获取测验统计信息
+      deprecated: false
+      description: ''
+      tags:
+        - xueqing
+      parameters:
+        - name: exam_id
+          in: query
+          description: ''
+          required: true
+          example: '9'
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                  data:
+                    type: object
+                    properties:
+                      highest:
+                        type: integer
+                      lowest:
+                        type: integer
+                      average:
+                        type: number
+                      count:
+                        type: integer
+                    required:
+                      - highest
+                      - lowest
+                      - average
+                      - count
+                  msg:
+                    type: string
+                required:
+                  - code
+                  - data
+                  - msg
+              example:
+                code: 200
+                data:
+                  highest: 40
+                  lowest: 0
+                  average: 19.75
+                  count: 4
+                msg: success
+          headers: {}
+      security:
+        - bearer: []
+  /xueqing/solo:
+    get:
+      summary: 某道题目solo
+      deprecated: false
+      description: ''
+      tags:
+        - xueqing
+      parameters:
+        - name: exam_id
+          in: query
+          description: ''
+          required: true
+          example: '9'
+          schema:
+            type: string
+        - name: qid
+          in: query
+          description: ''
+          required: true
+          example: '8'
+          schema:
+            type: string
+        - name: class_id
+          in: query
+          description: ''
+          required: true
+          example: '1'
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                  data:
+                    type: object
+                    properties:
+                      class_id:
+                        type: integer
+                      student_number:
+                        type: integer
+                      p_student_number:
+                        type: integer
+                      u_student_number:
+                        type: integer
+                      m_student_number:
+                        type: integer
+                      r_student_number:
+                        type: integer
+                      e_student_number:
+                        type: integer
+                      p_student_list:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                            student_id:
+                              type: integer
+                            student_name:
+                              type: string
+                          required:
+                            - id
+                            - student_id
+                            - student_name
+                      u_student_list:
+                        type: 'null'
+                      m_student_list:
+                        type: 'null'
+                      r_student_list:
+                        type: 'null'
+                      e_student_list:
+                        type: 'null'
+                      level:
+                        type: integer
+                      problem:
+                        type: string
+                      knowledge:
+                        type: array
+                        items:
+                          type: string
+                      top_student:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                            student_id:
+                              type: integer
+                            student_name:
+                              type: string
+                      back_student:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                            student_id:
+                              type: integer
+                            student_name:
+                              type: string
+                      highest:
+                        type: integer
+                      lowest:
+                        type: integer
+                      average:
+                        type: integer
+                    required:
+                      - class_id
+                      - student_number
+                      - p_student_number
+                      - u_student_number
+                      - m_student_number
+                      - r_student_number
+                      - e_student_number
+                      - p_student_list
+                      - u_student_list
+                      - m_student_list
+                      - r_student_list
+                      - e_student_list
+                      - level
+                      - problem
+                      - knowledge
+                      - top_student
+                      - back_student
+                      - highest
+                      - lowest
+                      - average
+                  msg:
+                    type: string
+                required:
+                  - code
+                  - data
+                  - msg
+              example:
+                code: 200
+                data:
+                  class_id: 1
+                  student_number: 2
+                  p_student_number: 2
+                  u_student_number: 0
+                  m_student_number: 0
+                  r_student_number: 0
+                  e_student_number: 0
+                  p_student_list:
+                    - id: 9
+                      student_id: 10225101539
+                      student_name: l
+                    - id: 2
+                      student_id: 10225101536
+                      student_name: lzk
+                  u_student_list: null
+                  m_student_list: null
+                  r_student_list: null
+                  e_student_list: null
+                  level: 0
+                  problem: >-
+                    学生在回答这道地理题时普遍存在两个主要问题：一是部分学生作答不够完整，缺乏对距今18ka之后沉积物变化及其环境意义的描述，导致无法完全解释古湖消失的时间点；二是有学生完全偏离了题目要求，未对古湖消失的时间及理由进行回答。
+                  knowledge:
+                    - 河流、湖泊的水文特征、演化过程
+                  top_student:
+                    - id: 9
+                      student_id: 10225101539
+                      student_name: l
+                  back_student:
+                    - id: 2
+                      student_id: 10225101536
+                      student_name: lzk
+                  highest: 4
+                  lowest: 0
+                  average: 2
+                msg: success
+          headers: {}
+      security:
+        - bearer: []
+  /ocr_result:
+    post:
+      summary: 获取ocr识别结果
+      deprecated: false
+      description: ''
+      tags:
+        - flask
+      parameters:
+        - name: flag
+          in: query
+          description: 0表示一张图片的试卷类型，1表示多张图片的试卷类型
+          required: true
+          example: 0
+          schema:
+            type: integer
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                files:
+                  format: binary
+                  type: string
+                  description: file array
+                  example:
+                    - ''
+              required:
+                - files
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: array
+                    items:
+                      type: string
+                      description: Map<question, answer>
+                  error:
+                    type: string
+                    nullable: true
+                  detail:
+                    type: string
+                    nullable: true
+                required:
+                  - result
+                  - error
+                  - detail
+              example:
+                result:
+                  - ①此处地势低平，太阳光照充足。②昼夜温差大，作物糖分合量高、
+                  - ①高三地理②冰、霜、雨、雪
+                  - ''
+                  - >-
+                    激素调控：①肾素由肾静脉进入血液循环后，将血浆中由肝脏产生的血管紧张素原转化为血管紧张素，血管紧张素能显著地引起血管收缩、
+                  - >-
+                    肾上腺髓质：嗜咯细胞具有合成肾上腺素与去甲、的能力。肾上腺素引起外周血管收有，外周阻力↑；有强心作用去甲肾上腺素对平滑肌作用，外周细血管收缩
+                  - 神经反射途径：自主神经系统对内脏运动的调节：支配心血管系统的自主神经分配心房肌、心室肌、心脏特殊传导组织和血管平滑肌
+                  - >-
+                    心交感神经支配窦房结、房室交界、房室来、心房肌和心室肌,心交感神经兴奋，导致心率加快，传导速度加快，心房和心房肌的收缩能力增强：心交感神经为肾上腺能神经纤维，末梢释放的去甲肾上腺素能作用于心肌细胞膜上的相关受体，增加细胞内CAMP浓度。cAMP能激活心肌细胞膜上的钙通道心肌动作电位平台期Ca2+内流增加，心肌收缩能力增强。
+                  - >-
+                    ②心交感神经的兴奋还使自律细胞4期自动去极化速度加快心率加快⑥使房室交界区中结区细胞0期去极化速度加快，故传导速度加快心脏泵血能力增强
+                  - >-
+                    交感缩血管神经纤维节后神经元末梢释放去甲肾上腺素，与血管干滑肌上的肾上腺素受体结合，血管平滑肌收缩，血压开高。颈动脉窦与主动脉弓化学感受性反射调节作用下，由于流过颈动脉体的血流星呈著日，便外周血管收缩、心率增加和心输出量↑，血压↑。
+                error: null
+                detail: null
+          headers: {}
+      security:
+        - bearer: []
+  /llm_comment:
+    post:
+      summary: 大模型评分
+      deprecated: false
+      description: ''
+      tags:
+        - flask
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                question:
+                  type: string
+                full_score:
+                  type: integer
+                correct_answer:
+                  type: string
+                student_answer:
+                  type: string
+                criteria:
+                  type: string
+                  description: 评分标准，如果不存在就不要传这个字段
+                  nullable: true
+              required:
+                - question
+                - full_score
+                - correct_answer
+                - student_answer
+                - criteria
+            example:
+              question: >-
+                锡是人类生产和生活不可缺少的一种重要金属。锡石是锡最主要的矿物，锡石矿的形成与岩浆活动密切相关。个旧有中国“锡都”之称，是我国最大的产锡基地，矿业开发历史悠久，采选业产值曾占全市工业总产值的
+                75%以上。2008年，个旧被列为国家首批资源枯竭型城市。近年来，该市依托东南亚的锡矿资源，建立原料外来、产品外销的“两头在外”锡矿加工模式。如今，个旧以锡文化和休闲度假为主的文化旅游业不断发展，正在向“山水个旧美丽锡都”的目标迈进。2020年，一篇题为《鹤岗5万一套天寒地冻，云南7万一套四季为春》的文章在网络上受到广泛关注。如果条件允许，你是否会考虑在个旧买房?请从地理角度阐述你的观点。
+              full_score: 4
+              correct_answer: >-
+                会考虑，原因：纬度较低，气候适宜；休闲度假产业不断发展，未来经济增长潜力大；有铁路连接，交通便利。不考虑，原因：曾经工业污染严重，环境不佳；产业凋零，经济增长慢；地处西南边陲，交通不便；远离上海，文化差异大。
+              student_answer: 赞同。理由:1.房价低，很心动。2.环境优美，政策支持城市转型，未来发展潜力大。
+              criteria: >-
+                按照答案要求给分。表明观点，对应原因任答2点，每点2分共4分。其中，会考虑的原因阐述中不少同学写了房价低或者升值空间大等不给分，需要从地理角度来解释。
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: object
+                    properties:
+                      score:
+                        type: integer
+                      comment:
+                        type: string
+                      structure:
+                        type: string
+                    required:
+                      - score
+                      - comment
+                      - structure
+                  error:
+                    type: string
+                    nullable: true
+                required:
+                  - result
+                  - error
+              example:
+                detail: null
+                error: null
+                result:
+                  comment: >-
+                    该生对夏季气候特点的回答准确，得2分；对于茉莉花生长习性的描述，'喜欢水'体现了喜湿的特点，但没有明确表述出'好热喜湿'，因此这部分只得1分。另外，'土不能太湿润'虽是事实，但不符合题干中'生长习性'的要求，故不额外加分。
+                  score: 3
+                  structure: 单一结构
+          headers: {}
+      security:
+        - bearer: []
+  /problem:
+    post:
+      summary: 某题学生整体存在的问题
+      deprecated: false
+      description: ''
+      tags:
+        - flask
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                question:
+                  type: string
+                comments:
+                  type: array
+                  items:
+                    type: string
+                avg_score:
+                  type: number
+                full_score:
+                  type: number
+              required:
+                - question
+                - comments
+                - avg_score
+                - full_score
+            example:
+              question: >-
+                茉莉根系发达，生长旺季要求水分充足，但土壤过湿不利于其根系发育。全国最大的茉莉花基地位于广西南宁市横县，有数十万亩的河床冲积旱地。横县种植茉莉花历史悠久，至
+                20世纪90年代，我国茉莉花茶生产重心开始从东南沿海地区向横县转移，横县茉莉种植规模逐年扩大。目前，横县的茉莉鲜花和茉莉花茶产量占全国总产量
+                80%以上。横县夏季气候特点为？推测茉莉花生长习性。
+              comment:
+                - 该生作答完整，符合逻辑。
+                - >-
+                  该生只回答了气候特点中的'雨热同期'，没有明确使用'高温多雨'的表述，因此只得1分；生长习性中回答了'耐热耐湿'，但按照评分标准，'耐'字不符合要求，因此生长习性得1分。
+                - 夏季气候特点描述不完全准确，应为'高温多雨'而非'高温湿润'。生长习性描述正确。
+                - >-
+                  该生对夏季气候特点的回答准确，得2分；对于茉莉花生长习性的描述，'喜欢水'体现了喜湿的特点，但没有明确表述出'好热喜湿'，因此这部分只得1分。另外，'土不能太湿润'虽是事实，但不符合题干中'生长习性'的要求，故不额外加分。
+                - 该生对夏季气候特点回答正确，但对茉莉花生长习性的描述缺少'好热'这一点。
+              avg_score: 3
+              full_score: 4
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: string
+                    nullable: true
+                  error:
+                    type: string
+                    nullable: true
+                  detail:
+                    type: string
+                    nullable: true
+                required:
+                  - result
+                  - error
+                  - detail
+              example:
+                detail: null
+                error: null
+                result: >-
+                  学生在回答这道地理题时，普遍存在对横县夏季气候特点描述不准确的问题，部分学生未能结合茉莉花的生长习性和环境要求进行合理推测，导致答案缺乏针对性和完整性。此外，一些学生对茉莉花的生长习性理解不够深入，未能充分说明水分需求与土壤湿度之间的关系。
+          headers: {}
+      security:
+        - bearer: []
+  /knowledge:
+    post:
+      summary: 某题的知识点列表
+      deprecated: false
+      description: ''
+      tags:
+        - flask
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                question:
+                  type: string
+                answer:
+                  type: string
+                  description: 标准答案
+              required:
+                - answer
+                - question
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: array
+                    items:
+                      type: string
+                    nullable: true
+                  error:
+                    type: string
+                    nullable: true
+                  detail:
+                    type: string
+                    nullable: true
+                required:
+                  - result
+                  - error
+                  - detail
+              example:
+                error: null
+                result: 水循环的环节与过程、水量平衡
+                detail: null
+          headers: {}
+      security:
+        - bearer: []
+  /wrongbook/addWrongQuestion:
+    post:
+      summary: 添加错题记录
+      deprecated: false
+      description: ''
+      tags:
+        - wrongbook
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                student_id:
+                  type: integer
+                exam_id:
+                  type: integer
+                question_id:
+                  type: integer
+                question_text:
+                  type: string
+                student_answer:
+                  type: string
+                correct_answer:
+                  type: string
+                analysis:
+                  type: string
+                knowledge_point:
+                  type: string
+              required:
+                - student_id
+                - exam_id
+                - question_id
+                - question_text
+                - student_answer
+                - correct_answer
+            example:
+              student_id: 10225101537
+              exam_id: 9
+              question_id: 5
+              question_text: 说明影响长江三角洲人口分布的自然因素。
+              student_answer: 受地形和气候影响。
+              correct_answer: 地势平坦、河网密布、土壤肥沃、气候湿润。
+              analysis: 未提及关键因素“土壤”和“气候”，理解不全面。
+              knowledge_point: 人口与地理环境关系
+      responses:
+        '200':
+          description: 添加成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+              example:
+                code: 200
+                msg: added to wrongbook successfully
+          headers: {}
+      security:
+        - bearer: []
+  /wrongbook/getByStudent:
+    get:
+      summary: 获取学生错题列表
+      deprecated: false
+      description: ''
+      tags:
+        - wrongbook
+      parameters:
+        - name: student_id
+          in: query
+          description: ''
+          required: true
+          schema:
+            type: string
+        - name: knowledge_point
+          in: query
+          description: ''
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 成功返回错题列表
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+              example:
+                code: 200
+                data:
+                  - wrong_id: 1
+                    question_text: 说明影响长江三角洲人口分布的自然因素。
+                    student_answer: 受地形和气候影响。
+                    correct_answer: 地势平坦、河网密布、土壤肥沃、气候湿润。
+                    knowledge_point: 人口与地理环境关系
+                    create_time: '2025-10-12T08:00:00Z'
+                msg: success
+          headers: {}
+      security:
+        - bearer: []
+  /wrongbook/deleteWrongQuestion:
+    delete:
+      summary: 删除错题
+      deprecated: false
+      description: ''
+      tags:
+        - wrongbook
+      parameters:
+        - name: wrong_id
+          in: query
+          description: ''
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 删除成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+              example:
+                code: 200
+                msg: success
+          headers: {}
+      security:
+        - bearer: []
+  /recommendation/getSimilarQuestions:
+    get:
+      summary: 推荐同类题
+      deprecated: false
+      description: ''
+      tags:
+        - recommendation
+      parameters:
+        - name: wrong_id
+          in: query
+          description: ''
+          required: true
+          schema:
+            type: string
+        - name: limit
+          in: query
+          description: ''
+          required: false
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: 返回推荐题目列表
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+              example:
+                code: 200
+                data:
+                  - question_id: 301
+                    question_text: 分析导致珠江三角洲人口密集的自然因素。
+                    knowledge_point: 人口与地理环境关系
+                    difficulty: 中等
+                  - question_id: 302
+                    question_text: 说明四川盆地人口稠密的自然条件。
+                    knowledge_point: 人口与地理环境关系
+                    difficulty: 中等
+                msg: success
+          headers: {}
+      security:
+        - bearer: []
+  /recommendation/feedback:
+    post:
+      summary: 推荐题反馈
+      deprecated: false
+      description: ''
+      tags:
+        - recommendation
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                student_id:
+                  type: integer
+                wrong_id:
+                  type: integer
+                question_id:
+                  type: integer
+                feedback:
+                  type: string
+              required:
+                - student_id
+                - wrong_id
+                - question_id
+                - feedback
+            example:
+              student_id: 10225101537
+              wrong_id: 1
+              question_id: 302
+              feedback: useful
+      responses:
+        '200':
+          description: 反馈成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+              example:
+                code: 200
+                msg: feedback received
+          headers: {}
+      security:
+        - bearer: []
+components:
+  schemas: {}
+  responses: {}
+  securitySchemes:
+    bearer:
+      type: http
+      scheme: bearer
+servers: []
+security:
+  - bearer: []

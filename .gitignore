@@ -1,0 +1,44 @@
+# IntelliJ IDEA
+.idea/
+*.iml
+*.ipr
+*.iws
+out/
+
+# VS Code
+.vscode/
+
+# Maven
+target/
+.mvn/
+
+# Logs
+*.log
+
+# OS / Editor junk
+.DS_Store
+Thumbs.db
+
+# Java build artifacts
+*.class
+
+# Spring / environment overrides (keep base application.yml if you commit it)
+application-*.yml
+application-*.yaml
+application-*.properties
+
+# Environment / secrets
+.env
+*.env
+*.pem
+*.p12
+*.jks
+*.keystore
+*.crt
+*.key
+
+# Uploaded runtime files (if any)
+uploads/
+upload/
+data/
+
