@@ -16,10 +16,36 @@ app:
   jwtKey: "your key"
 
 spring:
+  main:
+    # 避免 Milvus 尚未 ready 时在容器启动阶段强行建连导致启动失败
+   lazy-initialization: true
   datasource:
     url: "jdbc:mysql://localhost:3306/geollm?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai"
     username: root
     password: dinghuaye521
+  ai:
+    openai:
+      # DeepSeek 兼容 OpenAI API
+      api-key: ${DEEPSEEK_API_KEY:${ai.deepseek.apiKey}}
+      base-url: ${DEEPSEEK_BASE_URL:${ai.deepseek.baseUrl}}
+      chat:
+        options:
+          model: ${AI_CHAT_MODEL:${ai.model}}
+          temperature: ${AI_TEMPERATURE:${ai.temperature}}
+      embedding:
+        options:
+          # 需你的提供方支持 embeddings；如不支持可换成其它 embedding 服务
+          model: ${AI_EMBEDDING_MODEL:text-embedding-3-small}
+    vectorstore:
+      milvus:
+        client:
+          host: ${MILVUS_HOST:${milvus.host}}
+          port: ${MILVUS_PORT:${milvus.port}}
+        collectionName: ${MILVUS_COLLECTION:${milvus.collection}}
+        embeddingDimension: ${MILVUS_DIMENSION:${milvus.dimension}}
+        initializeSchema: true
+        indexType: IVF_FLAT
+        metricType: COSINE
 
 mybatis-plus:
   configuration:
@@ -51,4 +77,12 @@ ai:
 eva:
   baseUrl: "https://zer0.top/flask"
   timeoutSeconds: 60
+
+milvus:
+  host: "127.0.0.1"
+  port: 19530
+  collection: "geollm_question_bank"
+  dimension: 1024
+
+
 

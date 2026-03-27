@@ -176,6 +176,61 @@ paths:
                 msg: success
       security:
         - bearer: []
+  /student/getStudentById:
+    get:
+      summary: 根据ID获取学生
+      deprecated: false
+      description: 根据学生主键ID查询学生信息。
+      tags:
+        - student
+      parameters:
+        - name: id
+          in: query
+          description: 学生主键ID（student.id）
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: 查询成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                  msg:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      student_id:
+                        type: string
+                      student_name:
+                        type: string
+                      class_id:
+                        type: integer
+              example:
+                code: 200
+                msg: success
+                data:
+                  id: 1
+                  student_id: "10225101537"
+                  student_name: luzhufeng
+                  class_id: 2
+        '500':
+          description: 未找到学生
+          content:
+            application/json:
+              example:
+                code: 500
+                msg: not found
+                data: null
+      security:
+        - bearer: []
   /student/getStudentByClass:
     get:
       summary: 获取每个班级学生列表
@@ -1339,6 +1394,40 @@ paths:
                 code: 200
                 msg: success
           headers: {}
+      security:
+        - bearer: []
+  /exam/deUploader:
+    delete:
+      summary: 删除阅卷人绑定
+      deprecated: false
+      description: 解除试卷与阅卷人关联。
+      tags:
+        - exam
+      parameters:
+        - name: id
+          in: query
+          description: 试卷ID
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: 处理成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                  msg:
+                    type: string
+                  data:
+                    nullable: true
+              example:
+                code: 200
+                msg: success
+                data: null
       security:
         - bearer: []
   /exam/setQuestionDetail:
@@ -2869,23 +2958,96 @@ paths:
           headers: {}
       security:
         - bearer: []
+  /wrongbook/getById:
+    get:
+      summary: 根据wrong_id获取错题
+      deprecated: false
+      description: 根据错题主键查询单条错题记录。
+      tags:
+        - wrongbook
+      parameters:
+        - name: wrong_id
+          in: query
+          description: 错题ID（wrongbook.wrong_id）
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: 查询成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                  msg:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      wrong_id:
+                        type: integer
+                      student_id:
+                        type: integer
+                      exam_id:
+                        type: integer
+                      question_id:
+                        type: integer
+                      question_text:
+                        type: string
+                      student_answer:
+                        type: string
+                      correct_answer:
+                        type: string
+                      analysis:
+                        type: string
+                      knowledge_point:
+                        type: string
+                      create_time:
+                        type: string
+              example:
+                code: 200
+                msg: success
+                data:
+                  wrong_id: 1
+                  student_id: 1022510153
+                  exam_id: 9
+                  question_id: 5
+                  question_text: 说明影响长江三角洲人口分布的自然因素。
+                  student_answer: 受地形和气候影响。
+                  correct_answer: 地势平坦、河网密布、土壤肥沃、气候湿润。
+                  analysis: 未提及关键因素“土壤”和“气候”，理解不全面。
+                  knowledge_point: 人口与地理环境关系
+                  create_time: "2026-03-27T17:00:00"
+        '606':
+          description: 错题不存在
+          content:
+            application/json:
+              example:
+                code: 606
+                msg: not found
+                data: null
+      security:
+        - bearer: []
   /recommendation/getSimilarQuestions:
     get:
       summary: 推荐同类题
       deprecated: false
-      description: ''
+      description: 根据错题ID生成同类题推荐，并返回推荐批次与题项落表ID。
       tags:
         - recommendation
       parameters:
         - name: wrong_id
           in: query
-          description: ''
+          description: 错题ID（wrongbook.wrong_id）
           required: true
           schema:
-            type: string
+            type: integer
         - name: limit
           in: query
-          description: ''
+          description: 期望返回数量，不传或<=0时默认5
           required: false
           schema:
             type: integer
@@ -2896,19 +3058,68 @@ paths:
             application/json:
               schema:
                 type: object
-                properties: {}
+                properties:
+                  code:
+                    type: integer
+                  msg:
+                    type: string
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        batch_id:
+                          type: integer
+                          format: int64
+                          description: 推荐批次ID（recommendation_batch.batch_id）
+                        item_id:
+                          type: integer
+                          format: int64
+                          description: 推荐题项ID（recommendation_item.item_id）
+                        question_id:
+                          type: integer
+                          description: 推荐题编号（兼容字段，当前由模型生成）
+                        question_text:
+                          type: string
+                          description: 推荐题题干
+                        knowledge_point:
+                          type: string
+                          description: 推荐题知识点
+                        difficulty:
+                          type: string
+                          description: 难度（简单/中等/困难）
               example:
                 code: 200
+                msg: success
                 data:
-                  - question_id: 301
+                  - batch_id: 12
+                    item_id: 105
+                    question_id: 1001
                     question_text: 分析导致珠江三角洲人口密集的自然因素。
                     knowledge_point: 人口与地理环境关系
                     difficulty: 中等
-                  - question_id: 302
+                  - batch_id: 12
+                    item_id: 106
+                    question_id: 1002
                     question_text: 说明四川盆地人口稠密的自然条件。
                     knowledge_point: 人口与地理环境关系
                     difficulty: 中等
-                msg: success
+        '300':
+          description: 请求参数错误（wrong_id缺失或为0）
+          content:
+            application/json:
+              example:
+                code: 300
+                msg: wrong_id is required
+                data: null
+        '606':
+          description: wrong_id不存在
+          content:
+            application/json:
+              example:
+                code: 606
+                msg: not found
+                data: null
           headers: {}
       security:
         - bearer: []
@@ -2916,7 +3127,7 @@ paths:
     post:
       summary: 推荐题反馈
       deprecated: false
-      description: ''
+      description: 提交推荐题反馈（当前按question_id入库）。
       tags:
         - recommendation
       parameters: []
@@ -2940,10 +3151,10 @@ paths:
                 - question_id
                 - feedback
             example:
-              student_id: 10225101537
+              student_id: 1022510153
               wrong_id: 1
-              question_id: 302
-              feedback: useful
+              question_id: 1002
+              feedback: 有用
       responses:
         '200':
           description: 反馈成功
@@ -2951,11 +3162,84 @@ paths:
             application/json:
               schema:
                 type: object
-                properties: {}
+                properties:
+                  code:
+                    type: integer
+                  msg:
+                    type: string
+                  data:
+                    nullable: true
               example:
                 code: 200
-                msg: feedback received
+                msg: success
+                data: null
+        '400':
+          description: 参数校验失败
+          content:
+            application/json:
+              example:
+                code: 400
+                msg: bad request
+                data: null
           headers: {}
+      security:
+        - bearer: []
+  /kb/importDocx:
+    post:
+      summary: 导入知识库DOCX
+      deprecated: false
+      description: 上传DOCX后进行切分并尝试写入向量库，返回新增文档片段数量。
+      tags:
+        - kb
+      parameters:
+        - name: kb_name
+          in: query
+          description: 知识库名称，不传默认default
+          required: false
+          schema:
+            type: string
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+              required:
+                - file
+      responses:
+        '200':
+          description: 导入成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                  msg:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      added:
+                        type: integer
+                        description: 成功解析并尝试入向量库的分片数量
+              example:
+                code: 200
+                msg: success
+                data:
+                  added: 18
+        '400':
+          description: 导入失败（文件解析失败或参数错误）
+          content:
+            application/json:
+              example:
+                code: 400
+                msg: invalid docx file
+                data: null
       security:
         - bearer: []
 components:

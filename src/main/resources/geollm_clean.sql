@@ -183,12 +183,12 @@ CREATE TABLE `wrongbook` (
 -- Table: recommendation_feedback
 -- ----------------------------
 CREATE TABLE `recommendation_feedback` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `student_id` int NOT NULL,
-  `wrong_id` int NOT NULL,
-  `question_id` int NOT NULL,
-  `feedback` varchar(50) NOT NULL,
-  `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `id` int NOT NULL AUTO_INCREMENT COMMENT '反馈主键ID',
+  `student_id` int NOT NULL COMMENT '反馈学生ID',
+  `wrong_id` int NOT NULL COMMENT '关联错题ID（wrongbook.wrong_id）',
+  `question_id` int NOT NULL COMMENT '推荐题编号（当前为返回结果中的编号）',
+  `feedback` varchar(50) NOT NULL COMMENT '反馈内容（如有用/没用）',
+  `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '反馈创建时间',
   PRIMARY KEY (`id`),
   KEY `student_id` (`student_id`),
   KEY `wrong_id` (`wrong_id`),
@@ -197,6 +197,46 @@ CREATE TABLE `recommendation_feedback` (
   CONSTRAINT `recommendation_feedback_ibfk_2`
     FOREIGN KEY (`wrong_id`) REFERENCES `wrongbook` (`wrong_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='推荐反馈表';
+
+-- ----------------------------
+-- Table: recommendation_batch
+-- ----------------------------
+CREATE TABLE `recommendation_batch` (
+  `batch_id` bigint NOT NULL AUTO_INCREMENT COMMENT '推荐批次ID（一次推荐请求）',
+  `student_id` int NOT NULL COMMENT '发起推荐的学生ID',
+  `wrong_id` int NOT NULL COMMENT '关联错题ID（wrongbook.wrong_id）',
+  `source_question_text` text COMMENT '推荐时使用的原题题干快照',
+  `source_knowledge_point` varchar(255) DEFAULT NULL COMMENT '推荐时使用的知识点快照',
+  `model_name` varchar(100) DEFAULT NULL COMMENT '生成该批次的模型名称',
+  `request_limit` int NOT NULL COMMENT '本次请求期望返回题目数量',
+  `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '批次创建时间',
+  PRIMARY KEY (`batch_id`),
+  KEY `idx_rb_student_wrong` (`student_id`, `wrong_id`),
+  KEY `idx_rb_wrong` (`wrong_id`),
+  CONSTRAINT `recommendation_batch_ibfk_1`
+    FOREIGN KEY (`student_id`) REFERENCES `student` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `recommendation_batch_ibfk_2`
+    FOREIGN KEY (`wrong_id`) REFERENCES `wrongbook` (`wrong_id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='推荐批次表（一次请求生成多道推荐题）';
+
+-- ----------------------------
+-- Table: recommendation_item
+-- ----------------------------
+CREATE TABLE `recommendation_item` (
+  `item_id` bigint NOT NULL AUTO_INCREMENT COMMENT '推荐题主键ID',
+  `batch_id` bigint NOT NULL COMMENT '所属推荐批次ID（recommendation_batch.batch_id）',
+  `item_no` int NOT NULL COMMENT '批次内序号（从1开始）',
+  `question_text` text NOT NULL COMMENT '推荐题题干',
+  `knowledge_point` varchar(255) DEFAULT NULL COMMENT '推荐题知识点',
+  `difficulty` varchar(20) DEFAULT NULL COMMENT '难度（简单/中等/困难）',
+  `candidate_ref` text COMMENT '候选题来源信息（可选）',
+  `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '题项创建时间',
+  PRIMARY KEY (`item_id`),
+  UNIQUE KEY `uk_batch_itemno` (`batch_id`, `item_no`),
+  KEY `idx_ri_batch` (`batch_id`),
+  CONSTRAINT `recommendation_item_ibfk_1`
+    FOREIGN KEY (`batch_id`) REFERENCES `recommendation_batch` (`batch_id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='推荐题明细表（每个批次的具体题目）';
 
 CREATE TABLE `exam_ocr_roi` (
                                 `exam_id` INT NOT NULL,
